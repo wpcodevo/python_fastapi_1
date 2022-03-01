@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from sqlalchemy import func
 from app import oauth2
 from .. import schemas, models
@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[schemas.PostOut])
-def get_posts(db: Session = Depends(get_db), limit: int = 10, page: int = 1, search: str | None = ''):
+def get_posts(db: Session = Depends(get_db), limit: int = 10, page: int = 1, search: Optional[str] = ''):
     skip = (page - 1) * limit
 
     posts = db.query(models.Post, func.count(models.Vote.post_id).label('votes')).outerjoin(
