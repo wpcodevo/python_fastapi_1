@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy import func
 from app import oauth2
 from .. import schemas, models
@@ -11,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=list[schemas.PostOut])
+@router.get("/", response_model=List[schemas.PostOut])
 def get_posts(db: Session = Depends(get_db), limit: int = 10, page: int = 1, search: str | None = ''):
     skip = (page - 1) * limit
 
