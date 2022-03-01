@@ -1,4 +1,3 @@
-from msilib import schema
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=[
