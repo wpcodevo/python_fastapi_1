@@ -1,0 +1,31 @@
+version: '3'
+services:
+  fastapi:
+    build:
+      context: ./
+    depends_on:
+      - postgres
+    environment:
+      - database_hostname=postgres
+      - database_port=5432
+      - database_password=password123
+      - database_username=postgres
+      - database_name=fastapi
+      - algorithm=HS256
+      - secret_key=my-ultra-secure-secret_key-for-life
+      - access_token_expires_in=15
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=fastapi
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  postgres-db:
